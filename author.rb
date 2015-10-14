@@ -32,12 +32,12 @@ class Author
   end
 
   def best_book(n=1)
-    r = @books.sort{ |a,b| a.popularity <=> a.popularity }.last(n)
-    r.last if n == 1
+    r = @books.sort{ |a,b| a.popularity <=> a.popularity }.reverse.take(n)
+    r.first if n == 1
   end
 
   def bestseller(n=1)
-    r = @library.book_top.select{|b| b.author == self}.last(n)   # yup
-    r.last if n == 1
+    r = @library.book_top.select{|b| b.author == self}.take(n)   # yup
+    r.first if n == 1
   end
 end
