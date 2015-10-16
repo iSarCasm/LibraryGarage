@@ -1,4 +1,5 @@
-require_relative 'library'
+require_relative 'library/library'
+require_relative 'load_data'
 
 puts'Library App for RubyGarage
       _.--._  _.--._
@@ -13,75 +14,43 @@ puts'Library App for RubyGarage
        \`_..--""--.;.--""--.._=>
         "
 '
-# New library
-library  = Library.new('GarageLibrary')
-# Readers
-library.add_reader Reader.new("John Doe", "doe@doe.doe", "Springfield", "Doe st.", "13", age: 37)
-library.add_reader Reader.new("Michael Bay", "thebest@dude.com",  "NY", "Doe st.", "34", gender: "dude")
-library.add_reader Reader.new("Madonna", "mdn@talented.net","LA", "Doe st.", "42")
-library.add_reader Reader.new("Tywin Lannister", "tywin@lannister.ucoz.ru","Casterly Rock", "Town hall", "14", age: 88)
-# Authors
-rothfuss      =  library.add_author Author.new("Patrick Rothfuss", age: 42, genre: "Fantasy")
-martin        =  library.add_author Author.new("George R. R. Martin")
-                 library.add_author Author.new("J. R. R. Tolkien")
-someAuthor    =  library.add_author Author.new("E. L. James", genre: "Erotic romance")
-# Books
-library.add_book Book.new("A Game of Thrones", martin, date: 1996)
-library.add_book Book.new("A Clash of Kings", "George R. R. Martin", date: 1998)
-library.add_book Book.new("A Storm of Swords", "George R. R. Martin", date: 2000)
-library.add_book Book.new("A Feast for Crows", "George R. R. Martin", date: 2005, pages: 666)
-library.add_book Book.new("A Dance with Dragons", "George R. R. Martin")
-library.add_book Book.new("The Winds of Winter", "George R. R. Martin", date: 2045, hype: 9000)
-library.add_book Book.new("The Hobbit", "J. R. R. Tolkien")
-library.add_book Book.new("The Fellowship of the Ring", "J. R. R. Tolkien")
-library.add_book Book.new("The Name of the Wind", rothfuss)
-library.add_book Book.new("The Wise Man's Fear ", "Patrick Rothfuss")
-library.add_book Book.new("50 Shades of Depression", someAuthor)
-# Make some orders
-library.order("John Doe", "A Game of Thrones")
-library.order("John Doe", "A Feast for Crows")
-library.order("John Doe", "50 Shades of Depression")
-library.order("John Doe", "A Game of Thrones")
-library.order("Michael Bay", "A Game of Thrones")
-library.order("Michael Bay", "A Feast for Crows")
-library.order("Michael Bay", "50 Shades of Depression")
-library.order("Madonna", "A Feast for Crows")
-library.order("Madonna", "50 Shades of Depression")
-library.order("Madonna", "50 Shades of Depression")
-library.order("Tywin Lannister", "The Winds of Winter")
-library.order("Tywin Lannister", "The Wise Man's Fear")
-# Save
-library.save "MyLib.txt"
-
-
-# More API demonstration
+load_data
+# API demonstration
 lib = Library.load "MyLib.txt"
-# library api
+puts "【・_・?】"
 puts "Bestseller #{lib.bestseller.to_s}"
-puts "\nBook top: #{lib.book_top()}"
-puts "\nMainstream ppl: #{lib.mainstream_count} dudes: #{lib.mainstream}"
-puts "\n"
+puts "Mainstream = #{lib.mainstream.size} dudes: #{lib.mainstream}"
+puts "Book top: #{lib.book_top()}"
 # author api
-puts "\nMartin's books: #{lib.author('George R. R. Martin').books}"
-puts "\nMartin's bestseller: #{lib.author('George R. R. Martin').bestseller}"
-puts "\nMartin's best book: #{lib.author('George R. R. Martin').best_book}"
-puts "\n"
+puts "\n(∗ ･‿･)ﾉ゛"
+puts "Martin's books: #{lib.author('George R. R. Martin').books}"
+puts "Martin's bestseller: #{lib.author('George R. R. Martin').bestseller}"
+puts "Martin's best book: #{lib.author('George R. R. Martin').best_book}"
+puts "Martin's last book: #{lib.author('George R. R. Martin').latest}"
+
 # book api
-puts "\nFans of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").fans}"
-puts "\nOrders of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").orders}"
-puts "\nReaders of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").readers}"
-puts "\nPopularity of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").popularity}"
+puts "\nヽ(#`Д´)ﾉ"
+puts "Fans of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").fans}"
+puts "Orders of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").orders}"
+puts "Readers of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").readers}"
+puts "Popularity of book 'A game of Thrones': #{lib.find_book("A Game of Thrones").popularity}"
 puts "\n"
 
 # reader api
-puts "\nTywin Lannister's orders: #{lib.reader('Tywin Lannister').orders}"
+puts "Σ(ﾟДﾟ? )ﾉ"
+puts "Tywin Lannister's orders: #{lib.reader('Tywin Lannister').orders}"
 puts "\n"
 
 # order api
-puts "\nOrders similar to John Doe's first order: #{lib.reader('John Doe').orders[0].similar}"
-puts "\n"
+puts "( ﹡ﾟーﾟ﹡)"
+puts "Orders similar to John Doe's first order: #{lib.reader('John Doe').orders[0].similar}"
 
-puts "#{lib.bestseller.author.bestseller.fans.first.orders.last.book.author.best_book.readers}"   # you can do this
+puts "
+       ____
+  _||__|  |  ______   ______   ______
+ (        | |      | |      | |      |
+ /-()---() ~ ()--() ~ ()--() ~ ()--()
+lib.bestseller.author.bestseller.fans.first.orders.last.book.author.latest.readers: #{lib.bestseller.author.bestseller.fans.first.orders.last.book.author.latest.readers}\n\n"   # you can do this
 
 
 
@@ -103,14 +72,15 @@ puts "#{lib.bestseller.author.bestseller.fans.first.orders.last.book.author.best
  #     %.         z*"                      ^%.        .r"
  #        "*==*""                             ^"*==*""   My version of IRB here:
 try_myself = Proc.new do
-  k = '"Now try yourself (\'exit\'):"'
+  k = '"Now try yourself (\'exit\' or \'save\'):"'
   line = 0
   b = binding
-  until k == 'exit'
+  until k == 'exit' || k == "save"
     b.eval "puts #{k}"
     print "#{RUBY_VERSION} :#{line.to_s.rjust(3,'0')} > "
     k = gets.chomp
     line+=1
   end
+  lib.save "newLib.txt"  if k == "save"
 end
 try_myself.call

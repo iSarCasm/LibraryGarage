@@ -24,7 +24,7 @@ class Reader
   alias_method :inspect, :to_s
 
   def order book
-    @library.order(book,self)
+    @library.order(self,book)
   end
 
   def orders

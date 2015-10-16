@@ -28,11 +28,11 @@ class Author
   end
 
   def latest
-    @books.last
+    @books.sort{ |b| b.releaseDate }.last || @books.last
   end
 
   def best_book(n=1)
-    r = @books.sort{ |a,b| a.popularity <=> a.popularity }.reverse.take(n)
+    r = @books.sort{ |a,b| a.popularity <=> b.popularity }.reverse.take(n)
     r.first if n == 1
   end
 

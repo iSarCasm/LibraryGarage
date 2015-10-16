@@ -32,27 +32,27 @@ class Library
   end
   alias_method :reader, :find_reader
 
+
   def add_book book
     book.author = find_author book.author
     book.author.add_book book
     book.library = self
     return book
   end
-
   def add_author author
     author.library = self
     return author
   end
-
+  # alias_method :add_reader, :add_order, :add_author # I COULD DO THIS, BUT I WONT
   def add_reader reader
     reader.library = self
     return reader
   end
-
   def add_order order
     order.library = self
     return order
   end
+
 
   def order(reader,book)
     reader = find_reader reader
@@ -71,9 +71,9 @@ class Library
       orders.select { |o| o.book == a }.size <=> orders.select { |o| o.book == b}.size
     end.reverse!
     if n > 1
-      top.last(n)
+      top.take(n)
     elsif n == 1
-      top.last
+      top.first
     else
       top
     end
@@ -82,11 +82,7 @@ class Library
   # How many people ordered one of the three most popular books
   def mainstream
     main_books = book_top(3)
-    puts main_books
     @orders.select{|o| main_books.include?(o.book)}.map{|o| o.reader}.uniq
-  end
-  def mainstream_count
-    mainstream.size
   end
 
 
@@ -100,8 +96,7 @@ class Library
     self.class.load(path)
   end
   def self.load(path)
-    f = File.open(path,'rb')
-    Marshal.load f.read
+    Marshal.load File.open(path,'rb').read
   end
 
 end
