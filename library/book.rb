@@ -24,14 +24,18 @@ class Book
 
   # Who often takes the book
   def fans(n = 3)
-    fans = @library.readers.sort do |a, b|
-      orders.count{ |o| o.reader == a && o.book == self }.size <=> orders.count { |o| o.reader == b && o.book == self}
-    end.reverse!
-    fans.first(n)
+    if @library
+      fans = @library.readers.sort do |a, b|
+        orders.count{ |o| o.reader == a && o.book == self }.size <=> orders.count { |o| o.reader == b && o.book == self}
+      end.reverse!
+      fans.first(n)
+    end
   end
 
   def orders
-    @library.orders.select{|o| o.book == self }
+    if @library
+      @library.orders.select{|o| o.book == self }
+    end
   end
 
   def readers

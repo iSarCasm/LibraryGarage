@@ -37,7 +37,9 @@ class Author
   end
 
   def bestseller(n=1)
-    r = @library.book_top.select{|b| b.author == self}.take(n)   # yup
-    r.first if n == 1
+    if @library
+      r = @library.book_top.select{|b| b.author == self}.take(n)   # yup
+      r.first if n == 1
+    end
   end
 end

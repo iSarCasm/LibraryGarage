@@ -21,7 +21,9 @@ class Order
   alias_method :inspect, :to_s
 
   def similar
-    @library.orders.select {|o| o.book == @book && o.reader == @reader }
+    if @library
+      @library.orders.select {|o| o.book == @book && o.reader == @reader }
+    end
   end
 
 end

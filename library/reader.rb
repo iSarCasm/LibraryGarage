@@ -24,10 +24,14 @@ class Reader
   alias_method :inspect, :to_s
 
   def order book
-    @library.order(self,book)
+    if @library
+      @library.order(self,book)
+    end
   end
 
   def orders
-    @library.orders.select{ |o| o.reader == self }
+    if @library
+      @library.orders.select{ |o| o.reader == self }
+    end
   end
 end
