@@ -1,21 +1,21 @@
 class Author
   attr_accessor :name, :genre, :bornDate, :country, :library
   attr_reader :books
-  def initialize(name, bio = {})
+  def initialize(name, genre: nil, bornDate: nil, country: nil, age: nil)
     @name = name
-    @genre = bio[:genre]
-    @bornDate = bio[:bornDate]
-    @country = bio[:country]
-    @age = bio[:age]
+    @genre = genre
+    @bornDate = bornDate
+    @country = country
+    @age = age
     @books = []
   end
 
   def library=(lib)
-    if @library != lib  # setting to new lib
-      @library.authors.delete(self) if @library
-      lib.authors << self
+    if @library != lib                          # setting to new lib
+      @library.authors.delete(self) if @library   # delete me from previous lib
+      @library = lib
+      @library.add_author self                    # add to new lib
     end
-    @library = lib
   end
 
   def to_s
@@ -28,7 +28,7 @@ class Author
   end
 
   def latest
-    @books.sort{ |b| b.releaseDate }.last || @books.last
+    @books.select{ |x| x.releaseDate }.sort{ |a,b| a.releaseDate <=> b.releaseDate }.last || @books.last
   end
 
   def best_book(n=1)

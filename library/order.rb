@@ -8,11 +8,11 @@ class Order
   end
 
   def library=(lib)
-    if @library != lib  # setting to new lib
-      @library.orders.delete(self) if @library
-      lib.orders << self
+    if @library != lib                            # setting to new lib
+      @library.orders.delete(self) if @library    # delete me from previous lib
+      @library = lib
+      @library.add_order self                     # add to new lib
     end
-    @library = lib
   end
 
   def to_s

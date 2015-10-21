@@ -1,19 +1,19 @@
 class Book
   attr_accessor :title, :releaseDate, :pages, :author, :library
-  def initialize(title, author, details = {})
+  def initialize(title, author, date: nil, pages: nil, hype: 1)
     @title = title
     @author = author
-    @releaseDate = details[:date]
-    @pages = details[:pages]
-    @hype = details[:hype] || 1
+    @releaseDate = date
+    @pages = pages
+    @hype = hype
   end
 
   def library=(lib)
-    if @library != lib  # setting to new lib
-      @library.books.delete(self) if @library
-      lib.books << self
+    if @library != lib                          # setting to new lib
+      @library.books.delete(self) if @library   # delete me from previous lib
+      @library = lib
+      @library.add_book self                    # add to new lib
     end
-    @library = lib
   end
 
 

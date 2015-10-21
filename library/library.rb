@@ -5,12 +5,12 @@ require_relative 'order'
 
 class Library
   attr_accessor :name, :books, :orders, :readers, :authors
-  def initialize (name, options = {})
+  def initialize (name, books: [], orders: [], readers: [], authors: [])
     @name = name
-    @books = options[:books] || []
-    @orders = options[:orders] || []
-    @readers = options[:readers] || []
-    @authors = options[:authors] || []
+    @books = books
+    @orders = orders
+    @readers = readers
+    @authors = authors
   end
 
   def to_s
@@ -18,7 +18,7 @@ class Library
   end
 
   def find_book book
-    @books.select{|b| b.title == book }.first || book
+    @books.select{|b| b.title == book}.first || book
   end
   alias_method :book, :find_book
 
@@ -35,26 +35,37 @@ class Library
 
   def add_book book
     book.author = find_author book.author
-    book.author.add_book book
-    book.library = self
+    unless @books.include?(book)  # setting to new lib
+      book.author.add_book book
+      @books << book
+    end
+    book.library = self # assign new library (me)
     return book
   end
   def add_author author
+    unless @authors.include?(author)  # setting to new lib
+      @authors << author
+    end
     author.library = self
     return author
   end
-  # alias_method :add_reader, :add_order, :add_author # I COULD DO THIS, BUT I WONT
   def add_reader reader
+    unless @readers.include?(reader)  # setting to new lib
+      @readers << reader
+    end
     reader.library = self
     return reader
   end
   def add_order order
+    unless @orders.include?(order)  # setting to new lib
+      @orders << order
+    end
     order.library = self
     return order
   end
 
 
-  def order(reader,book)
+  def make_order(reader,book)
     reader = find_reader reader
     book = find_book book
     add_order Order.new(book, reader, Time.now)

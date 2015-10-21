@@ -1,21 +1,21 @@
 class Reader
   attr_accessor :name, :email, :city, :street, :house, :library
-  def initialize (name, email, city, street, house, bio = {})
+  def initialize (name, email, city, street, house, age: nil, gender: nil)
     @name = name
     @email = email
     @city = city
     @street = street
     @house = house
-    @age = bio[:age]
-    @gender = bio[:gender]
+    @age = age
+    @gender = gender
   end
 
   def library=(lib)
-    if @library != lib  # setting to new lib
-      @library.readers.delete(self) if @library
-      lib.readers << self
+    if @library != lib                          # setting to new lib
+      @library.readers.delete(self) if @library # delete me from previous lib
+      @library = lib
+      @library.add_reader self                    # add to new lib
     end
-    @library = lib
   end
 
   def to_s
@@ -23,9 +23,9 @@ class Reader
   end
   alias_method :inspect, :to_s
 
-  def order book
+  def make_order book
     if @library
-      @library.order(self,book)
+      @library.make_order(self,book)
     end
   end
 
